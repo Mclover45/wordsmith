@@ -24,7 +24,7 @@ steps:
   # Create cluster
   - kops create cluster --name=wordsmith.rbachkarou.tl.scntl.com --state=s3://rbachkarou-kops --zones=eu-central-1a --node-count=2 --node-size=t3.medium --master-size=t3.medium
   - kops update cluster --name wordsmith.rbachkarou.tl.scntl.com --yes --admin --state=s3://rbachkarou-kops
-  - kops validate cluster --wait 5m --state=s3://rbachkarou-kops
+  - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
   # Istio install 
   - curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.13.2 TARGET_ARCH=x86_64 sh -
   - /istio-1.13.2/bin/istioctl install --set profile=minimal -y
