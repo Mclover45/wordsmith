@@ -4,10 +4,7 @@ name: default
 
 environment:
   AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
-  GOARCH: amd64
-  AWS_ACCESS_KEY_ID=AKIAQUL6SMGRSKYMFEG3   
-  AWS_SECRET_ACCESS_KEY=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
-
+  AWS_SECRET_ACCESS_KEY : AWS_SECRET_ACCESS_KEY
 
 steps:
 - name: Cluster install
