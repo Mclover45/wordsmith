@@ -45,8 +45,8 @@ steps:
   - git clone https://github.com/Mclover45/wordsmith
   - helm install wordsmith-demo /drone/src/wordsmith/helm/wordsmith-demo
   # ingress install
-  - kubectl appply -f ic-nginx-lb.yaml
-  - kubectl appply -f app-ingress.yml
+  - kubectl apply -f ic-nginx-lb.yaml
+  - kubectl apply -f app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
 
