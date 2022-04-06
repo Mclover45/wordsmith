@@ -51,6 +51,7 @@ steps:
   - kubectl get svc --all-namespaces
 
 trigger:
+- name: Cluster uninstall
   status:
   - failure
   commands:
