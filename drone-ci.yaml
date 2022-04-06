@@ -26,6 +26,14 @@ steps:
   - kops create cluster --name=wordsmith.rbachkarou.tl.scntl.com --state=s3://rbachkarou-kops --zones=eu-central-1a --node-count=2 --node-size=t3.medium --master-size=t3.medium
   - kops update cluster --name wordsmith.rbachkarou.tl.scntl.com --yes --admin --state=s3://rbachkarou-kops
   - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
+  
+  ######
+  - git clone https://github.com/Mclover45/wordsmith
+  - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
+  - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
+  #####
+
+
   # Istio install 
   - curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.13.2 TARGET_ARCH=x86_64 sh -
   - /drone/src/istio-1.13.2/bin/istioctl install --set profile=minimal -y
@@ -45,7 +53,7 @@ steps:
   - git clone https://github.com/Mclover45/wordsmith
   - helm install wordsmith-demo /drone/src/wordsmith/helm/wordsmith-demo
   # ingress install
-  - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
-  - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
+ # - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
+ # - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
