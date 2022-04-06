@@ -49,10 +49,3 @@ steps:
   - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
-
-trigger:
-- name: Cluster uninstall
-  status:
-  - failure
-  commands:
-  - kops delete cluster wordsmith.rbachkarou.tl.scntl.com --yes --state=s3://rbachkarou-kops
