@@ -50,3 +50,8 @@ steps:
   # Give data
   - kubectl get svc --all-namespaces
 
+trigger:
+  status:
+  - failure
+  commands:
+  - kops delete cluster wordsmith.rbachkarou.tl.scntl.com --yes --state=s3://rbachkarou-kops
