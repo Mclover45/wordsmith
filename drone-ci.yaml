@@ -27,7 +27,7 @@ steps:
   - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
   # Istio install 
   - curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.13.2 TARGET_ARCH=x86_64 sh -
-  - /istio-1.13.2/bin/istioctl install --set profile=minimal -y
+  - /drone/src/istio-1.13.2/bin/istioctl install --set profile=minimal -y
   # Labeled for istio
   - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled
