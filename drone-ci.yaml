@@ -32,8 +32,8 @@ steps:
   - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled
   # install grafana and kiali
-  - kubectl apply -f /istio-1.13.2/samples/addons/kiali.yaml
-  - kubectl apply -f /istio-1.13.2/samples/addons/grafana.yaml
+  - kubectl apply -f /drone/src/istio-1.13.2/samples/addons/kiali.yaml
+  - kubectl apply -f /drone/src/istio-1.13.2/samples/addons/grafana.yaml
   # Install helm
   - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
   - chmod 700 get_helm.sh
