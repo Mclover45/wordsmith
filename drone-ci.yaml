@@ -43,3 +43,7 @@ steps:
   # App install
   - git clone https://github.com/Mclover45/wordsmith
   - helm install wordsmith-demo /wordsmith/helm/wordsmith-demo
+  - kubectl appply -f ic-nginx-lb.yaml
+  - kubectl appply -f app-ingress.yml
+  - kubectl get svc --all-namespaces
+
