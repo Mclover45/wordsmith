@@ -2,13 +2,14 @@ kind: pipeline
 type: docker
 name: default
 
-environment:
-  AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
-  AWS_SECRET_ACCESS_KEY : AWS_SECRET_ACCESS_KEY
-
 steps:
 - name: Cluster install
   image: ubuntu
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
   commands:
   - apt-get update 
   - apt-get install -y curl
