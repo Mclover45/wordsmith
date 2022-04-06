@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
+  namespace: wordsmith
   labels:
     app: {{ .Values.Database.name }}
 spec:
@@ -24,6 +25,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: words
+  namespace: wordsmith
   labels:
     app: {{ .Values.API.name }}
 spec:
@@ -47,6 +49,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
+  namespace: wordsmith
   labels:
     app: {{ .Values.WEB.name }}
 spec:

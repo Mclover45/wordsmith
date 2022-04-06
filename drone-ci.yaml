@@ -15,19 +15,31 @@ steps:
   commands:
   - apt-get update 
   - apt-get install -y curl
+  # Kops install
   - curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
   - chmod +x kops
   - mv kops /usr/local/bin/kops
-
-curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-chmod +x ./kubectl
-mv ./kubectl /usr/local/bin/kubectl
-
-  kops create cluster --name=wordsmith.rbachkarou.tl.scntl.com --state=s3://rbachkarou-kops --zones=eu-central-1a --node-count=2 --node-size=t3.medium --master-size=t3.medium
-  kops update cluster --name wordsmith.rbachkarou.tl.scntl.com --yes --admin --state=s3://rbachkarou-kops
-
-
-curl -L https://github.com/drone-runners/drone-runner-exec/releases/latest/download/drone_runner_exec_linux_arm.tar.gz | tar zx
-
-  kubectl label namespace default istio-injection=enabled
+  # Kubectl install
+  - curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - mv ./kubectl /usr/local/bin/kubectl
+  # Create cluster
+  - kops create cluster --name=wordsmith.rbachkarou.tl.scntl.com --state=s3://rbachkarou-kops --zones=eu-central-1a --node-count=2 --node-size=t3.medium --master-size=t3.medium
+  - kops update cluster --name wordsmith.rbachkarou.tl.scntl.com --yes --admin --state=s3://rbachkarou-kops
+  # Labeled for istio
+  - kubectl label namespace #default# istio-injection=enabled
+  # Istio install 
+  - curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.13.2 TARGET_ARCH=x86_64 sh -
+  - /istio-1.13.2/bin/istioctl install --set profile=minimal -y
+  # install grafana and kiali
+  - kubectl apply -f /istio-1.13.2/samples/addons/kiali.yaml
+  - kubectl apply -f /istio-1.13.2/samples/addons/grafana.yaml
+  # Install helm
+  - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+  - chmod 700 get_helm.sh
+  - ./get_helm.sh
   
+  
+  # App install
+  - git clone https://github.com/Mclover45/wordsmith
+  - helm install wordsmith-demo /wordsmith/helm/wordsmith-demo
