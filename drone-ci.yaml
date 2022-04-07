@@ -14,7 +14,6 @@ steps:
     AWS_SECRET_ACCESS_KEY:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
-  - kops export kubeconfig wordsmith.rbachkarou.tl.scntl.com --admin
   - shell cluster-existing.sh
 ---
 kind: pipeline
@@ -40,8 +39,8 @@ steps:
   - helm install wordsmith-demo /drone/src/wordsmith/helm/wordsmith-demo
   # Give data
   - kubectl get svc --all-namespaces
-    # ingress install
+  # ingress install
   - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
   - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
-  depends_on:
-  - Cluster install
+depends_on:
+ - Cluster
