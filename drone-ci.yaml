@@ -15,6 +15,10 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
   - sh cluster-existing.sh
+    # Istio install 
+  -  istioctl install --set profile=minimal -y
+    # ingress install
+  -  kubectl apply -f ingress/ic-nginx-lb.yaml
 
 ---
 
