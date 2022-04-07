@@ -45,5 +45,5 @@ steps:
   - kubectl apply -f ingress/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
-  depends_on:
- - Cluster
+depends_on:
+- Cluster
