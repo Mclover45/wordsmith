@@ -7,32 +7,3 @@ API:
 WEB:
     name: words-web
     image: dockersamples/k8s-wordsmith-web
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age: []
-    lastmodified: "2022-03-30T11:46:18Z"
-    mac: ENC[AES256_GCM,data:KIWGMY7+aFLBkMYmQ13WIyqqa1E45DoC21Nj4bhGQrrY9lBdtjpRMx86Vyli3iS0z18/9UwpZX9lhzXetdBtaJh3kVajYhf01rXdDTsuKpbDVV3KWkl/h8yrrMQc3dlvCRUlyvzbFl88SaElyunI7VtXN1t2NfXYMDQ47XjNZeI=,iv:GbnJZeTvJ5lF/iwm3yfr4K7wK0IA9QjyZgx3wCUTsps=,tag:dXTWx1aaLlbyYUAES7qNwg==,type:str]
-    pgp:
-        - created_at: "2022-03-30T11:46:17Z"
-          enc: |
-            -----BEGIN PGP MESSAGE-----
-
-            hQGMAxx50+LGk1IdAQv9FSzbQDqpQJOZCwLQ6nnRoiv5DD99W33AfiufcBew/Z+8
-            dgU/gn5UcmbFMjrGHmA+K4uR7TVAeMZfiJbc9FLWtpCbQPvS6iaRrIfG0CaIQqGz
-            BbRTJqxY5mxcAmC3m2vYLodQ8DIsqtfiZ7BLzk3GwaP9i9KqNjAhTvL9nrQMUxYK
-            R503T8IdVc+uLzbFa4lz3DEk7iRwsZssf5yyF32hMHxtS0Baf6z3aoUk7KcifFkR
-            7MOxqz38nLHVMSMBiG/t0kqb2zZd+eq81C8yMo2cvMI6MBqwMwvycHxPIaBpnJh/
-            CgNeJo8dV37dZvF858HjYMK8pqxmP5y4BVoCLJ/RavLbH5hhaeyjrXF5JwZlwzZk
-            AAWg7fWCq1CMLIw2sze5p96o8JP34Jz8yRHend2md0pErc94iGQV8Nc/2YLXv4Tu
-            bjLb1mvpb7NfYF3BQQ8kCAzN13QBQb0PrLS9uO6FheF7H29gNG9oNy5JF048BG7W
-            PXCp0CEkWPWgfutkzuu/0lwBTMAaUXaTAzjmMsZ6hjALTOVgc465bQ6uU7oDuz4A
-            +3ZncOvVAE76vKvz27OzFM2pIeA0GWvZ5qMd5EhRxayN68Hi/7E7nY17ifNRBMjP
-            MOa0jXP8qgOZ7F8Jkw==
-            =JwoV
-            -----END PGP MESSAGE-----
-          fp: 81255346362143F4DFA4DDFB21B4604B844B675B
-    encrypted_regex: password|pin
-    version: 3.7.2
