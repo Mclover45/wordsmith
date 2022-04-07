@@ -43,7 +43,7 @@ steps:
   # ingress install
   -  kubectl apply -f ingress/ic-nginx-lb.yaml
   # Labeled for istio
-  - kubectl create namespace wordsmith
+ # - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled --overwrite
   # install grafana and kiali and prometeus
   - kubectl apply -f istio-addons/kiali.yaml
