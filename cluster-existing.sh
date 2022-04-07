@@ -9,8 +9,6 @@ else
     kops validate cluster --wait 10m --state=s3://rbachkarou-kops
     # Istio install 
     istioctl install --set profile=minimal -y
-    # Labeled for istio
-    kubectl create namespace wordsmith
     # ingress install
   - kubectl apply -f ingress/ic-nginx-lb.yaml
 fi
