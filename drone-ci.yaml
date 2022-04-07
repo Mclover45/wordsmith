@@ -39,7 +39,7 @@ steps:
   - kops export kubeconfig wordsmith.rbachkarou.tl.scntl.com --admin
   - ls -l
   - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
-  - kubectl label namespace wordsmith istio-injection=enabled
+  - kubectl label namespace wordsmith istio-injection=enabled --overwrite
   # install grafana and kiali and prometeus
   - kubectl apply -f istio-addons/kiali.yaml
   - kubectl apply -f istio-addons/grafana.yaml
