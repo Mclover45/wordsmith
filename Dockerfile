@@ -1,7 +1,7 @@
 FROM mozilla/sops
 
 # Install common apps
-RUN apt-get --allow-releaseinfo-change update \
+RUN apt-get update \
     && apt-get install -y curl \
     && apt-get install -y  unzip \
     && apt-get install -y git \
@@ -22,5 +22,9 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && ./aws/install
+# Kubectl install
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl
 
 ENTRYPOINT ["/bin/bash"]
