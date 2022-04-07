@@ -50,7 +50,7 @@ steps:
   - kubectl apply -f istio-addons/grafana.yaml
   - kubectl apply -f istio-addons/prometheus.yaml
   # Decrypt the value
-  - sops -d -i $ARN_AWS helm/wordsmith-demo/values.yaml
+  - sops -d -i --kms $ARN_AWS helm/wordsmith-demo/values.yaml
   # App install
   - helm install wordsmith-demo helm/wordsmith-demo
   # ingress install
