@@ -58,5 +58,7 @@ steps:
   - kubectl apply -f ingress/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
+  # Get an external dns
+  - kubectl get services --namespace ingress-nginx nginx-ingress-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
 depends_on:
 - Cluster
