@@ -16,7 +16,9 @@ steps:
   commands:
   - ls -l
   - sh cluster-existing.sh
+
 ---
+
 kind: pipeline
 type: docker
 name: Application
