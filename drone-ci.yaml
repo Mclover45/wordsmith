@@ -15,7 +15,7 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
   - ls -l
-  - shell cluster-existing.sh
+  - .cluster-existing.sh
 ---
 kind: pipeline
 type: docker
