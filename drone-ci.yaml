@@ -40,6 +40,7 @@ steps:
   - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
   # ingress install
   -  kubectl apply -f ingress/ic-nginx-lb.yaml
+  - sleep 120
   # Istio install 
   -  istioctl install --set profile=minimal -y
   # Labeled for istio
