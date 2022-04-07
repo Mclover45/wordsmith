@@ -13,8 +13,8 @@ StateExisting=$(aws s3 ls s3://rbachkarou-kops | grep -o  wordsmith.rbachkarou.t
     kubectl create namespace wordsmith
     kubectl label namespace wordsmith istio-injection=enabled
    # install grafana and kiali and prometeus
-    kubectl apply -f /drone/src/istio-1.13.2/samples/addons/kiali.yaml
-    kubectl apply -f /drone/src/istio-1.13.2/samples/addons/grafana.yaml
-    kubectl apply -f /drone/src/istio-1.13.2/samples/addons/prometheus.yaml
+    kubectl apply -f istio-addons/kiali.yaml
+    kubectl apply -f istio-addons/grafana.yaml
+    kubectl apply -f istio-addons/prometheus.yaml
     fi
   

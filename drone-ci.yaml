@@ -38,10 +38,10 @@ steps:
   - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
   # App install
   - helm install wordsmith-demo /drone/src/wordsmith/helm/wordsmith-demo
+  # ingress install
+  - kubectl apply -f ingress/ic-nginx-lb.yaml
+  - kubectl apply -f ingress/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
-  # ingress install
-  - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
-  - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
-depends_on:
+  depends_on:
  - Cluster
