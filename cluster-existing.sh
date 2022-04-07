@@ -10,6 +10,6 @@ else
     # Istio install 
     istioctl install --set profile=minimal -y
     # ingress install
-  - kubectl apply -f ingress/ic-nginx-lb.yaml
+    kubectl apply -f ingress/ic-nginx-lb.yaml
 fi
   
