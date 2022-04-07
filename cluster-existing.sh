@@ -11,5 +11,7 @@ else
     istioctl install --set profile=minimal -y
     # Labeled for istio
     kubectl create namespace wordsmith
+    # ingress install
+  - kubectl apply -f ingress/ic-nginx-lb.yaml
 fi
   
