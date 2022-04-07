@@ -38,4 +38,4 @@ steps:
   - kubectl apply -f /drone/src/wordsmith/app-ingress.yml
   - kubectl apply -f /drone/src/wordsmith/ic-nginx-lb.yaml
   depends_on:
-  - Cluster
+  - Cluster install
