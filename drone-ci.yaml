@@ -15,7 +15,7 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
   - ls -l
-  - sh cluster-existing.sh <<    
+  - sh cluster-existing.sh <<EOF
     StateExisting=$(aws s3 ls s3://rbachkarou-kops | grep -o  wordsmith.rbachkarou.tl.scntl.com) 
   if [ "$StateExisting" = "wordsmith.rbachkarou.tl.scntl.com" ] 
   then 
@@ -35,7 +35,7 @@ steps:
       kubectl apply -f istio-addons/grafana.yaml
       kubectl apply -f istio-addons/prometheus.yaml
   fi
-  
+  EOF
 
 ---
 
