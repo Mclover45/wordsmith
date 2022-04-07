@@ -4,7 +4,7 @@ name: default
 
 steps:
 - name: Cluster install
-  image: mclover45/kubernetes-kops:latest
+  image: mclover45/kubernetes-kops
   environment:
     AWS_ACCESS_KEY_ID:
       from_secret: AWS_ACCESS_KEY_ID
