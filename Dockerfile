@@ -1,7 +1,7 @@
 FROM mozilla/sops
 
 # Install common apps
-RUN apt-get --allow-releaseinfo-change update \
+RUN apt-get update \
     && apt-get install -y curl \
     && apt-get install -y  unzip \
     && apt-get install -y git \
