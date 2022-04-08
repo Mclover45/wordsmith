@@ -55,11 +55,18 @@ steps:
   # App install
   - helm install wordsmith-demo helm/wordsmith-demo
   # ingress install
-  - kubectl apply -f ingress/ic-nginx-lb.yaml
   - kubectl apply -f ingress/app-ingress.yml
   # Give data
   - kubectl get svc --all-namespaces
-  # Get an external dns
-  - kubectl get services --namespace ingress-nginx nginx-ingress-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
+  # Update DNS record
+  - apt install -y moreutils
+  - HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
+  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' app.json | sponge app.json
+  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' grafana.json | sponge grafana.json
+  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' kiali.json | sponge kiali.json
+  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://app.json
+  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://grafana.json
+  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://kiali.json
+
 depends_on:
 - Cluster

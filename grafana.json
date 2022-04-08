@@ -1,0 +1,19 @@
+{
+    "Comment": "Update record to add new CNAME record",
+    "Changes": [
+      {
+        "Action": "UPSERT",
+        "ResourceRecordSet": {
+          "Name": "grafana.rbachkarou.tl.scntl.com.",
+          "Type": "CNAME",
+          "TTL": 300,
+          "ResourceRecords": [
+            {
+              "Value": "$sdfsdf"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  
