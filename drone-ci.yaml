@@ -43,7 +43,7 @@ steps:
   - kops export kubeconfig CLUSTER_NAME --admin
   - kops validate cluster --wait 10m
   # ingress install
-  -  kubectl apply -f ingress/ic-nginx-lb.yaml
+  - kubectl apply -f ingress/ic-nginx-lb.yaml
   - sleep 120
   # Istio install 
   -  istioctl install --set profile=minimal -y
@@ -65,9 +65,9 @@ steps:
   # Update DNS record
   - apt install -y moreutils
   - HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
-  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' app.json | sponge app.json
-  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' grafana.json | sponge grafana.json
-  - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' kiali.json | sponge kiali.json
+  - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" app.json | sponge app.json
+  - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" grafana.json | sponge grafana.json
+  - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" kiali.json | sponge kiali.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://app.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://grafana.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://kiali.json
