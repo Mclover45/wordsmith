@@ -9,7 +9,7 @@
         "TTL": 300,
         "ResourceRecords": [
           {
-            "Value": "$HOST_NAME_KUBE"
+            "Value": "acddfee45fd174793a1ea849ec5a6e1c-1584231831.eu-central-1.elb.amazonaws.com"
           }
         ]
       }

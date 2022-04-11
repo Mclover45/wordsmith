@@ -4,6 +4,7 @@ name: Cluster
 
 environment:
   KOPS_STATE_STORE: s3://rbachkarou-kops
+  CLUSTER_NAME: wordsmith.rbachkarou.tl.scntl.com
 
 steps:
 - name: Cluster install
@@ -14,7 +15,7 @@ steps:
     AWS_SECRET_ACCESS_KEY:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
-  - sh cluster-existing.sh
+  - sh cluster-existing.sh $KOPS_STATE_STORE $CLUSTER_NAME
 
 ---
 
@@ -23,7 +24,10 @@ type: docker
 name: Application
 
 environment:
+  CLUSTER_NAME: wordsmith.rbachkarou.tl.scntl.com
   KOPS_STATE_STORE: s3://rbachkarou-kops
+  hosted-zone-id: Z0756289421EHRZG13O5
+
 
 steps:
 - name: Application install
@@ -36,15 +40,15 @@ steps:
     ARN_AWS:
       from_secret: ARN_AWS
   commands:
-  - kops export kubeconfig wordsmith.rbachkarou.tl.scntl.com --admin
-  - kops validate cluster --wait 10m --state=s3://rbachkarou-kops
+  - kops export kubeconfig CLUSTER_NAME --admin
+  - kops validate cluster --wait 10m
   # ingress install
   -  kubectl apply -f ingress/ic-nginx-lb.yaml
-  ###- sleep 120
+  - sleep 120
   # Istio install 
   -  istioctl install --set profile=minimal -y
   # Labeled for istio
-  ###- kubectl create namespace wordsmith
+  - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled --overwrite
   # install grafana and kiali and prometeus
   - kubectl apply -f istio-addons/kiali.yaml
@@ -64,9 +68,9 @@ steps:
   - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' app.json | sponge app.json
   - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' grafana.json | sponge grafana.json
   - jq '.Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"' kiali.json | sponge kiali.json
-  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://app.json
-  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://grafana.json
-  - aws route53 change-resource-record-sets --hosted-zone-id Z0756289421EHRZG13O5 --change-batch file://kiali.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://app.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://grafana.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://kiali.json
 
 depends_on:
 - Cluster
