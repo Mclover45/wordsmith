@@ -49,7 +49,7 @@ steps:
   # Istio install 
   - istioctl install --set profile=minimal -y
   # Labeled for istio
-  #- kubectl create namespace wordsmith
+  - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled --overwrite
   # install grafana and kiali and prometeus
   - kubectl apply -f istio-addons/kiali.yaml
@@ -60,7 +60,7 @@ steps:
   # Decrypt the value
   - sops -d -i --kms $ARN_AWS helm/wordsmith-demo/values.yaml
   # App install
-  #- helm install wordsmith-demo helm/wordsmith-demo
+  - helm install wordsmith-demo helm/wordsmith-demo
 
   # Update DNS record
   - HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
@@ -71,7 +71,7 @@ steps:
   - aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://grafana.json
   - aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://kiali.json
   # Give data
-  - kubectl get svc --all-namespacesp
+  - kubectl get svc --all-namespaces
 
 depends_on:
 - Cluster
