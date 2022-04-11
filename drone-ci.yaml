@@ -60,8 +60,6 @@ steps:
   - helm install wordsmith-demo helm/wordsmith-demo
   # ingress install
   - kubectl apply -f ingress/app-ingress.yml
-  # Give data
-  - kubectl get svc --all-namespaces
   # Update DNS record
   - apt install -y moreutils
   - HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
@@ -71,6 +69,8 @@ steps:
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://app.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://grafana.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://kiali.json
+  # Give data
+  - kubectl get svc --all-namespaces
 
 depends_on:
 - Cluster
