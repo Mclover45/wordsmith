@@ -49,7 +49,7 @@ steps:
   # Update ingress rule
   - kubectl apply -f ingress/app-ingress.yml
   # Istio install 
-  -  istioctl install --set profile=minimal -y
+  - istioctl install --set profile=minimal -y
   # Labeled for istio
   - kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled --overwrite
