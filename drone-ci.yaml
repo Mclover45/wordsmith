@@ -26,7 +26,7 @@ name: Application
 environment:
   CLUSTER_NAME: wordsmith.rbachkarou.tl.scntl.com
   KOPS_STATE_STORE: s3://rbachkarou-kops
-  hosted-zone-id: Z0756289421EHRZG13O5
+  HOSTED_ZONE: Z0756289421EHRZG13O5
 
 
 steps:
@@ -49,7 +49,7 @@ steps:
   # Istio install 
   - istioctl install --set profile=minimal -y
   # Labeled for istio
-  - kubectl create namespace wordsmith
+  #- kubectl create namespace wordsmith
   - kubectl label namespace wordsmith istio-injection=enabled --overwrite
   # install grafana and kiali and prometeus
   - kubectl apply -f istio-addons/kiali.yaml
@@ -67,9 +67,9 @@ steps:
   - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" app.json | sponge app.json
   - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" grafana.json | sponge grafana.json
   - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" kiali.json | sponge kiali.json
-  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://app.json
-  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://grafana.json
-  - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://kiali.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://app.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://grafana.json
+  - aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://kiali.json
   # Give data
   - kubectl get svc --all-namespacesp
 
