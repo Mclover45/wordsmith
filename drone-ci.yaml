@@ -46,8 +46,6 @@ steps:
   - kubectl apply -f ingress/ic-nginx-lb.yaml
   # Check ingres in place
   - sh DNS_CHECKER.sh
-  # Update ingress rule
-  - kubectl apply -f ingress/app-ingress.yml
   # Istio install 
   - istioctl install --set profile=minimal -y
   # Labeled for istio
@@ -57,6 +55,8 @@ steps:
   - kubectl apply -f istio-addons/kiali.yaml
   - kubectl apply -f istio-addons/grafana.yaml
   - kubectl apply -f istio-addons/prometheus.yaml
+  # Update ingress rule
+  - kubectl apply -f ingress/app-ingress.yml
   # Decrypt the value
   - sops -d -i --kms $ARN_AWS helm/wordsmith-demo/values.yaml
   # App install
