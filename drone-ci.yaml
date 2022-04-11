@@ -61,8 +61,6 @@ steps:
   # ingress install
   - kubectl apply -f ingress/app-ingress.yml
   # Update DNS record
-  - apt install -y moreutils
-  - apt-get install -y jq
   - HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
   - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" app.json | sponge app.json
   - jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" grafana.json | sponge grafana.json
