@@ -70,7 +70,7 @@ steps:
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://grafana.json
   - aws route53 change-resource-record-sets --hosted-zone-id $hosted-zone-id --change-batch file://kiali.json
   # Give data
-  - kubectl get svc --all-namespaces
+  - kubectl get svc --all-namespacesp
 
 depends_on:
 - Cluster
