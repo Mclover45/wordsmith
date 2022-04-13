@@ -42,7 +42,7 @@ steps:
   commands:
   - kops export kubeconfig $CLUSTER_NAME --admin
   - kops validate cluster --wait 10m
-  # ingress install
+  # ingress controller install
   - kubectl apply -f ingress/ic-nginx-lb.yaml
   # Check ingres in place
   - sh DNS_CHECKER.sh

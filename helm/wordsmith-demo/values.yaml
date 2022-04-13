@@ -1,24 +1,9 @@
 Database:
-    name: ENC[AES256_GCM,data:qj5SkBttZkg=,iv:rAO/uePIR7FjQacf44Nr9bLg4HomZug0vGFcgeYtOyU=,tag:nRPA6Hp9wL4CmaD1eTjvvQ==,type:str]
-    image: ENC[AES256_GCM,data:jLxbS1ajn9HKr9vN73Lwpp76RHl6podFbha4olbs,iv:zPvIq61Q67fS3+e2STzoj2cs0wyf7H+eQb4GIciQYXg=,tag:CBRyunad9KMM/XiBSkvTEg==,type:str]
+    name: words-db
+    image: dockersamples/k8s-wordsmith-db
 API:
-    name: ENC[AES256_GCM,data:PB+xWSBcNHJR,iv:s9Cg3DL1aq9PprBplLNniOCwT8TrXs8V602wpDEy/5I=,tag:5VsuuGrT7tgxbZ3AESUT4g==,type:str]
-    image: ENC[AES256_GCM,data:u811v7xhQa6KUgq13niai/w4RUiapl0U5Xgzj3HZVA==,iv:Y2MPc0l49WSW3mXP7qfUY+5aI29pZg0dPEZV9nfs9E4=,tag:9RLK5+wFaH+Kp5gz2z6CEg==,type:str]
+    name: words-api
+    image: dockersamples/k8s-wordsmith-api
 WEB:
-    name: ENC[AES256_GCM,data:K+NDkcfi5X6s,iv:cKYwGLuWzIKJ53c+FYArl5Gl9Kl/w+F+2Bu9tBTE57E=,tag:7Leu7NaWRIoQHhOoBwHW1g==,type:str]
-    image: ENC[AES256_GCM,data:8ZPLt7ofkyZZesfWN5Y3aWVrg1y9DzVRHFqw3rkksA==,iv:1P/n3obHG38qNnJT+lGDoCBY6ZaELBGrtEuC7nRAqWc=,tag:wjPgLnycEz6YjDzonRSZ+w==,type:str]
-sops:
-    kms:
-        - arn: arn:aws:kms:eu-central-1:043751989667:key/bb09cef1-c218-48fa-beba-4ee5fa4bfb62
-          created_at: "2022-04-07T19:53:56Z"
-          enc: AQICAHhWRNp6eIVxdIPZacIGj+xJ6l1gD5dNRvP28I2ob6SdygF12lKa2mrGqx3KWn9zj9OYAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM6WWHrbo1sLVtgbP3AgEQgDslz+uLISJJ4LNyjuPCacxxnKGXAn2nBqRhJode0HB75CYglTB3BPnwX4RG7SxHrikTq8T6aqhTTRvOSA==
-          aws_profile: ""
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age: []
-    lastmodified: "2022-04-07T19:53:56Z"
-    mac: ENC[AES256_GCM,data:s9HJ8TgJiplzGBRm5bB8wO4nC2DkHSY2wrNBnbXYzjMcmY5ev1BfdVXntx//koGUSTOiW6V4Zfk/JzqoCsXNKN6tG/AC/FrfyUt+dYa/Bh6yJY39UhsG48kmDGew2sD6/r5mkWljshRBDsGrqL85VLLdxmrgzDAnKD7T8ql82lo=,iv:3Eb4AZKe4YPVtwej8X0RmGHfZbSidkknObd0//DtAWQ=,tag:lDMmDnXEmUvM60Pu4XnnFA==,type:str]
-    pgp: []
-    unencrypted_suffix: _unencrypted
-    version: 3.7.2
+    name: words-web
+    image: dockersamples/k8s-wordsmith-web
