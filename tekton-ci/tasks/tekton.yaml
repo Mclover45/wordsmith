@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cluster-install
+  namespace: tekton-builds
+spec:
+  params: 
+  - name: arn-aws
+    type: string
+  - name: ClusteName
+    type: string
+  - name: StateName
+    type: string
+  workspaces:
+  - name: source
+  steps:
+  - name: cluster
+    image: mclover45/kubernetes-kops:v2
+    workingDir: $(workspaces.source.path)
+    script: |
+      #!/usr/bin/env bash
+          StateExisting=$(aws s3 ls $(params.StateName) | grep -o  $(params.ClusteName)) 
+      if [ "$StateExisting" = "$(params.ClusteName)" ] 
+      then 
+          echo "Cluster already there" 
+      else 
+      # Create cluster
+          kops create cluster --name=$(params.ClusteName) --state=$(params.StateName) --zones=eu-central-1a --node-count=2 --node-size=t3.medium --master-size=t3.medium
+          kops update cluster --name $(params.ClusteName) --yes --admin --state=$(params.StateName)
+          kops validate cluster --wait 10m --state=$(params.StateName)
+      fi
+

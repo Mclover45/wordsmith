@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: run-cluster-install
+  namespace: tekton-builds
+spec:
+  taskRef:
+    name: cluster-install
+  params:
+  - name: arn-aws
+    value: string
+  - name: ClusteName
+    value: wordsmith.rbachkarou.tl.scntl.com
+  - name: StateName
+    value: s3://rbachkarou-kops

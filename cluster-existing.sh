@@ -8,4 +8,3 @@ else
     kops update cluster --name $2 --yes --admin --state=$1
     kops validate cluster --wait 10m --state=$1
 fi
-  
