@@ -31,7 +31,8 @@ spec:
     type: string
   - name: HOSTED_ZONE
     type: string
-
+  - name: ARN-KEY
+    type: string
   workspaces:
   - name: shared-data
     description: |
@@ -128,6 +129,8 @@ spec:
       value: $(params.AWS-KEY)
     - name: AWS-PRIVATE-KEY
       value: $(params.AWS-PRIVATE-KEY)
+    - name : ARN-KEY
+      value: $(params.ARN-KEY)
   - name: app-install
     runAfter: ["sops-decrypt-value"]
     taskRef:
@@ -144,10 +147,10 @@ spec:
       value: $(params.AWS-KEY)
     - name: AWS-PRIVATE-KEY
       value: $(params.AWS-PRIVATE-KEY)
-  - name: update-dns-recrods
+  - name: update-dns-records
     runAfter: ["ingress-install"]
     taskRef:
-      name: update-dns-recrods
+      name: update-dns-records
     workspaces:
     - name: output
       workspace: shared-data

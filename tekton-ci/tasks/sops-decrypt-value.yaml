@@ -12,6 +12,8 @@ spec:
     type: string
   - name: AWS-PRIVATE-KEY
     type: string
+  - name: ARN-KEY
+    type: string
   workspaces:
   - name: output
   steps:
@@ -25,5 +27,7 @@ spec:
       value: $(params.AWS-PRIVATE-KEY)
     - name: KOPS_STATE_STORE
       value: $(params.StateName)
+    - name: ARN-KEY
+      value: $(params.ARN-KEY)
     script: |
-      sops -d -i --kms $ARN_AWS $(workspaces.output.path)/helm/wordsmith-demo/values.yaml
+      sops -d -i --kms $(params.ARN-KEY) $(workspaces.output.path)/helm/wordsmith-demo/values.yaml

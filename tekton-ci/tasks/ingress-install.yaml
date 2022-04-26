@@ -50,7 +50,7 @@ spec:
           sleep 30
       done
       echo "DNS ingress in place $HOST_NAME_KUBE"
-  - name: ingress-ruke-creation
+  - name: ingress-rule-creation
     image: mclover45/kubernetes-kops:v2
     workingDir: $(workspaces.output.path)
     env:

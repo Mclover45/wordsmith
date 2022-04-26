@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: update-dns-record
+  name: update-dns-records
 spec:
   params: 
   - name: ClusteName
@@ -17,7 +17,7 @@ spec:
   workspaces:
   - name: output
   steps:
-  - name: update-dns-record
+  - name: update-dns-records
     image: mclover45/kubernetes-kops:v2
     workingDir: $(workspaces.output.path)
     env:
