@@ -62,4 +62,6 @@ spec:
       value: $(params.StateName)
     script: |
       kops export kubeconfig $(params.ClusteName) --admin
+      kubectl create namespace wordsmith
+      kubectl create namespace istio-system
       kubectl apply -f ingress/app-ingress.yml

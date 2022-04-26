@@ -132,7 +132,7 @@ spec:
     - name : ARN-KEY
       value: $(params.ARN-KEY)
   - name: app-install
-    runAfter: ["sops-decrypt-value"]
+    runAfter: ["istio-install"]
     taskRef:
       name: app-install
     workspaces:

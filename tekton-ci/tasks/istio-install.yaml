@@ -40,7 +40,6 @@ spec:
       value: $(params.StateName)
     script: |
       kops export kubeconfig $(params.ClusteName) --admin
-      kubectl create namespace wordsmith
       kubectl label namespace wordsmith istio-injection=enabled --overwrite
   - name: apply-addons
     image: mclover45/kubernetes-kops:v2
