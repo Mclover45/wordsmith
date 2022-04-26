@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: ingress-install
+  name: sops-decrypt-value
 spec:
   params: 
   - name: ClusteName
@@ -15,7 +15,7 @@ spec:
   workspaces:
   - name: output
   steps:
-  - name: ingress-install
+  - name: sops-decrypt-value
     image: mclover45/kubernetes-kops:v2
     workingDir: $(workspaces.output.path)
     env:
