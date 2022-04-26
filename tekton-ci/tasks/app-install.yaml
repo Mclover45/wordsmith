@@ -26,4 +26,5 @@ spec:
     - name: KOPS_STATE_STORE
       value: $(params.StateName)
     script: |
+      kops export kubeconfig $(params.ClusteName) --admin
       helm install wordsmith-demo $(workspaces.output.path)/helm/wordsmith-demo

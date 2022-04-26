@@ -61,4 +61,5 @@ spec:
     - name: KOPS_STATE_STORE
       value: $(params.StateName)
     script: |
+      kops export kubeconfig $(params.ClusteName) --admin
       kubectl apply -f ingress/app-ingress.yml
