@@ -2,21 +2,28 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: cluster-install
-  namespace: tekton-builds
 spec:
   params: 
-  - name: arn-aws
-    type: string
   - name: ClusteName
     type: string
   - name: StateName
     type: string
+  - name: AWS-KEY
+    type: string
+  - name: AWS-PRIVATE-KEY
+    type: string
+  
   workspaces:
-  - name: source
+  - name: output
   steps:
-  - name: cluster
+  - name: create-cluster
     image: mclover45/kubernetes-kops:v2
-    workingDir: $(workspaces.source.path)
+    workingDir: $(workspaces.output.path)
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      value: $(params.AWS-KEY)
+    - name: AWS_SECRET_ACCESS_KEY
+      value: $(params.AWS-PRIVATE-KEY) 
     script: |
       #!/usr/bin/env bash
           StateExisting=$(aws s3 ls $(params.StateName) | grep -o  $(params.ClusteName)) 
