@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: app-install
+spec:
+  params: 
+  - name: ClusteName
+    type: string
+  - name: StateName
+    type: string
+  - name: AWS-KEY
+    type: string
+  - name: AWS-PRIVATE-KEY
+    type: string
+  workspaces:
+  - name: output
+  steps:
+  - name: app-install
+    image: mclover45/kubernetes-kops:v2
+    workingDir: $(workspaces.output.path)
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      value: $(params.AWS-KEY)
+    - name: AWS_SECRET_ACCESS_KEY
+      value: $(params.AWS-PRIVATE-KEY)
+    - name: KOPS_STATE_STORE
+      value: $(params.StateName)
+    script: |
+      helm install wordsmith-demo $(workspaces.output.path)/helm/wordsmith-demo

@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: update-dns-record
+spec:
+  params: 
+  - name: ClusteName
+    type: string
+  - name: StateName
+    type: string
+  - name: AWS-KEY
+    type: string
+  - name: AWS-PRIVATE-KEY
+    type: string
+  - name: HOSTED_ZONE
+    type: string
+  workspaces:
+  - name: output
+  steps:
+  - name: update-dns-record
+    image: mclover45/kubernetes-kops:v2
+    workingDir: $(workspaces.output.path)
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      value: $(params.AWS-KEY)
+    - name: AWS_SECRET_ACCESS_KEY
+      value: $(params.AWS-PRIVATE-KEY)
+    - name: KOPS_STATE_STORE
+      value: $(params.StateName)
+    - name: HOSTED_ZONE
+      value: $(params.HOSTED_ZONE)
+    script: |
+      HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller  -o json | jq .status.loadBalancer.ingress[].hostname)
+      jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" $(workspaces.output.path)/app.json | sponge $(workspaces.output.path)/app.json
+      jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" $(workspaces.output.path)/grafana.json | sponge $(workspaces.output.path)/grafana.json
+      jq ".Changes[].ResourceRecordSet.ResourceRecords[].Value = "$HOST_NAME_KUBE"" $(workspaces.output.path)/kiali.json | sponge $(workspaces.output.path)/kiali.json
+      aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://app.json
+      aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://grafana.json
+      aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE --change-batch file://kiali.json

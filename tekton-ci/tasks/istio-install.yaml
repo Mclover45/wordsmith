@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: ingress-install
+  name: istio-install
 spec:
   params: 
   - name: ClusteName
@@ -15,22 +15,7 @@ spec:
   workspaces:
   - name: output
   steps:
-  - name: ingress-install
-    image: mclover45/kubernetes-kops:v2
-    workingDir: $(workspaces.output.path)
-    env:
-    - name: AWS_ACCESS_KEY_ID
-      value: $(params.AWS-KEY)
-    - name: AWS_SECRET_ACCESS_KEY
-      value: $(params.AWS-PRIVATE-KEY)
-    - name: KOPS_STATE_STORE
-      value: $(params.StateName)
-    script: |
-      kops export kubeconfig $(params.ClusteName) --admin 
-      kops validate cluster --wait 10m
-      # ingress controller install
-      kubectl apply -f $(workspaces.output.path)/ingress/ic-nginx-lb.yaml
-  - name: ingress-dns-check
+  - name: istio-install
     image: mclover45/kubernetes-kops:v2
     workingDir: $(workspaces.output.path)
     env:
@@ -42,15 +27,8 @@ spec:
       value: $(params.StateName)
     script: |
       kops export kubeconfig $(params.ClusteName) --admin
-      kops validate cluster --wait 10m
-      HOST_NAME_KUBE=""
-      while [ -z "$HOST_NAME_KUBE"] 
-      do
-          HOST_NAME_KUBE=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o=jsonpath='{.status.loadBalancer.ingress[].hostname}')
-          sleep 30
-      done
-      echo "DNS ingress in place $HOST_NAME_KUBE"
-  - name: ingress-ruke-creation
+      istioctl install --set profile=minimal -y
+  - name: create-label
     image: mclover45/kubernetes-kops:v2
     workingDir: $(workspaces.output.path)
     env:
@@ -61,4 +39,20 @@ spec:
     - name: KOPS_STATE_STORE
       value: $(params.StateName)
     script: |
-      kubectl apply -f ingress/app-ingress.yml
+      kops export kubeconfig $(params.ClusteName) --admin
+      kubectl create namespace wordsmith
+      kubectl label namespace wordsmith istio-injection=enabled --overwrite
+  - name: apply-addons
+    image: mclover45/kubernetes-kops:v2
+    workingDir: $(workspaces.output.path)
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      value: $(params.AWS-KEY)
+    - name: AWS_SECRET_ACCESS_KEY
+      value: $(params.AWS-PRIVATE-KEY)
+    - name: KOPS_STATE_STORE
+      value: $(params.StateName)
+    script: |
+      kubectl apply -f istio-addons/kiali.yaml
+      kubectl apply -f istio-addons/grafana.yaml
+      kubectl apply -f istio-addons/prometheus.yaml

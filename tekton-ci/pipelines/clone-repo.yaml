@@ -29,6 +29,8 @@ spec:
     type: string
   - name: AWS-PRIVATE-KEY
     type: string
+  - name: HOSTED_ZONE
+    type: string
 
   workspaces:
   - name: shared-data
@@ -94,4 +96,72 @@ spec:
       value: $(params.AWS-KEY)
     - name: AWS-PRIVATE-KEY
       value: $(params.AWS-PRIVATE-KEY)
+  - name: istio-install
+    runAfter: ["ingress-install"]
+    taskRef:
+      name: istio-install
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: ClusteName
+      value: $(params.ClusteName)
+    - name: StateName
+      value: $(params.StateName)
+    - name: AWS-KEY
+      value: $(params.AWS-KEY)
+    - name: AWS-PRIVATE-KEY
+      value: $(params.AWS-PRIVATE-KEY)
+  - name: sops-decrypt-value
+    runAfter: ["fetch-repo"]
+    taskRef:
+      name: sops-decrypt-value
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: ClusteName
+      value: $(params.ClusteName)
+    - name: StateName
+      value: $(params.StateName)
+    - name: AWS-KEY
+      value: $(params.AWS-KEY)
+    - name: AWS-PRIVATE-KEY
+      value: $(params.AWS-PRIVATE-KEY)
+  - name: app-install
+    runAfter: ["sops-decrypt-value"]
+    taskRef:
+      name: app-install
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: ClusteName
+      value: $(params.ClusteName)
+    - name: StateName
+      value: $(params.StateName)
+    - name: AWS-KEY
+      value: $(params.AWS-KEY)
+    - name: AWS-PRIVATE-KEY
+      value: $(params.AWS-PRIVATE-KEY)
+  - name: update-dns-recrods
+    runAfter: ["ingress-install"]
+    taskRef:
+      name: update-dns-recrods
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: ClusteName
+      value: $(params.ClusteName)
+    - name: StateName
+      value: $(params.StateName)
+    - name: AWS-KEY
+      value: $(params.AWS-KEY)
+    - name: AWS-PRIVATE-KEY
+      value: $(params.AWS-PRIVATE-KEY)
+    - name: HOSTED_ZONE
+      value: $(params.HOSTED_ZONE)
+
+
 
