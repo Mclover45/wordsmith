@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: cat-branch-readme
+  name: cluster-install-pipeline
 spec:
   description: |
     cat-branch-readme takes a git repository and a branch name and
@@ -33,6 +33,10 @@ spec:
     type: string
   - name: ARN-KEY
     type: string
+  - name: DockerLogin
+    type: string
+  - name: buildcontext
+    type: string
   workspaces:
   - name: shared-data
     description: |
@@ -50,6 +54,20 @@ spec:
       value: $(params.repo-url)
     - name: revision
       value: $(params.branch-name)
+---
+  - name: build-docker-image
+    runAfter: ["fetch-repo"]
+    taskRef:
+      name: build-docker-image
+    workspaces:
+    - name: output
+      workspace: shared-data
+    params:
+    - name: DockerLogin
+      value: $(params.DockerLogin)
+    - name: buildcontext
+      value: $(params.buildcontext)
+---  
   - name: cat-readme
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:

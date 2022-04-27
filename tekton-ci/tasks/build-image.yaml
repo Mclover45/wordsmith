@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-docker-image
+spec:
+  params:
+  - name: DockerLogin
+    type: string
+#  - name: buildcontext
+#    type: string
+  workspaces:
+  - name: output
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:latest
+      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/"
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=(workspaces.output.path)/Dockerfile
+        - --destination=$(params.DockerLogin)/kubernetes-kops
+#        - --context=$(params.buildcontext)
