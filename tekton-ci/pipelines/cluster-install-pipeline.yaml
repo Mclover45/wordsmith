@@ -83,8 +83,6 @@ spec:
           #!/usr/bin/env zsh
           cat $(workspaces.output.path)/README.md
           cd $(workspaces.output.path)/
-          pwd
-          ls -l /tekton/home/.docker/
   - name: cluster-install
     runAfter: ["fetch-repo"]
     taskRef:
