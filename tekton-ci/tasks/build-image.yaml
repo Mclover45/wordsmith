@@ -20,6 +20,6 @@ spec:
       command:
         - /kaniko/executor
       args:
-        - --dockerfile=$(workspaces.output.path)/web/Dockerfile
+        - --dockerfile=$(workspaces.output.path)/Dockerfile
         - --destination=$(params.DockerLogin)/wordsmith-web
-        - --context=$(workspaces.output.path)/web/
+        - --context=$(workspaces.output.path)/
