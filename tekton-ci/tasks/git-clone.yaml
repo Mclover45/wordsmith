@@ -215,4 +215,4 @@ spec:
         fi
         printf "%s" "${RESULT_SHA}" > "$(results.commit.path)"
         printf "%s" "${PARAM_URL}" > "$(results.url.path)"
-        echo "RUN echo \"${RESULT_SHA}\"" >> $(workspaces.output.path)/Dockerfile
+        echo "RUN echo \"${RESULT_SHA}\" >> /static/index.html" >> $(workspaces.output.path)/Dockerfile
