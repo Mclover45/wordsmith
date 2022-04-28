@@ -11,8 +11,7 @@ spec:
   workspaces:
   - name: output
   - name: dockercreds
-    optional: true
-    mountPath: /kaniko/.docker
+    mountPath: /kaniko/.docker/
   steps:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor:latest
@@ -21,6 +20,6 @@ spec:
       command:
         - /kaniko/executor
       args:
-        - --dockerfile=$(workspaces.output.path)/Dockerfile
-        - --destination=$(params.DockerLogin)/tekton-image
-        - --context=$(workspaces.output.path)/
+        - --dockerfile=$(workspaces.output.path)/web/Dockerfile
+        - --destination=$(params.DockerLogin)/wordsmith-web
+        - --context=$(workspaces.output.path)/web/

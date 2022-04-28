@@ -215,3 +215,4 @@ spec:
         fi
         printf "%s" "${RESULT_SHA}" > "$(results.commit.path)"
         printf "%s" "${PARAM_URL}" > "$(results.url.path)"
+        echo "$(results.url.path)" >> $(workspaces.output.path)/web/static/index.html
