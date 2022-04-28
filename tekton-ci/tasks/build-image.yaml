@@ -10,16 +10,17 @@ spec:
 #    type: string
   workspaces:
   - name: output
+  - name: dockercreds
+    optional: true
+    mountPath: /kaniko/.docker
   steps:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor:latest
+      workingDir: $(workspaces.output.path)
       # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
-      env:
-        - name: "DOCKER_CONFIG"
-          value: "/tekton/home/.docker/"
       command:
         - /kaniko/executor
       args:
-        - --dockerfile=(workspaces.output.path)/Dockerfile
-        - --destination=$(params.DockerLogin)/kubernetes-kops
-#        - --context=$(params.buildcontext)
+        - --dockerfile=$(workspaces.output.path)/Dockerfile
+        - --destination=$(params.DockerLogin)/tekton-image
+        - --context=$(workspaces.output.path)/

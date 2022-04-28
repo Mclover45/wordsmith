@@ -35,9 +35,10 @@ spec:
     type: string
   - name: DockerLogin
     type: string
-  - name: buildcontext
-    type: string
+#  - name: buildcontext
+#    type: string
   workspaces:
+  - name: dockercreds
   - name: shared-data
     description: |
       This workspace will receive the cloned git repo and be passed
@@ -54,20 +55,20 @@ spec:
       value: $(params.repo-url)
     - name: revision
       value: $(params.branch-name)
----
   - name: build-docker-image
     runAfter: ["fetch-repo"]
     taskRef:
       name: build-docker-image
     workspaces:
+    - name: dockercreds
+      workspace: dockercreds
     - name: output
       workspace: shared-data
     params:
     - name: DockerLogin
       value: $(params.DockerLogin)
-    - name: buildcontext
-      value: $(params.buildcontext)
----  
+#    - name: buildcontext
+#      value: $(params.buildcontext)  
   - name: cat-readme
     runAfter: ["fetch-repo"]  # Wait until the clone is done before reading the readme.
     workspaces:
@@ -83,6 +84,7 @@ spec:
           cat $(workspaces.output.path)/README.md
           cd $(workspaces.output.path)/
           pwd
+          ls -l /tekton/home/.docker/
   - name: cluster-install
     runAfter: ["fetch-repo"]
     taskRef:
