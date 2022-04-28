@@ -18,7 +18,7 @@ spec:
       workingDir: $(workspaces.output.path)
       # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
       command:
-        - /kaniko/executor
+        - /kaniko/executor 
       args:
         - --dockerfile=$(workspaces.output.path)/Dockerfile
         - --destination=$(params.DockerLogin)/wordsmith-web
