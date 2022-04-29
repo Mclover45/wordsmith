@@ -1,1 +1,1 @@
-FROM mclover45/wordsmith-web
+FROM dockersamples/k8s-wordsmith-web
